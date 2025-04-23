@@ -1,6 +1,8 @@
 package com.example.libraryapi.controller;
 
 import com.example.libraryapi.controller.dto.AutorDTO;
+import com.example.libraryapi.controller.dto.ErroResposta;
+import com.example.libraryapi.exceptions.RegistroDuplicadoException;
 import com.example.libraryapi.model.Autor;
 import com.example.libraryapi.service.AutorService;
 import org.springframework.http.ResponseEntity;
@@ -24,17 +26,23 @@ public class AutorController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvar(@RequestBody AutorDTO autor) {
-        Autor autorEntidade = autor.mapearParaAutor();
-        autorService.salvar(autorEntidade);
+    public ResponseEntity<Object> salvar(@RequestBody AutorDTO autor) {
+        try {
+            Autor autorEntidade = autor.mapearParaAutor();
+            autorService.salvar(autorEntidade);
 
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(autorEntidade.getId())
-                .toUri();
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(autorEntidade.getId())
+                    .toUri();
 
-        return ResponseEntity.created(location).build();
+            return ResponseEntity.created(location).build();
+
+        } catch (RegistroDuplicadoException e) {
+            ErroResposta erroDTO = ErroResposta.conflito(e.getMessage());
+            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
+        }
     }
 
     @GetMapping("{id}")
@@ -83,19 +91,25 @@ public class AutorController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable String id, @RequestBody AutorDTO autorDto) {
-        UUID idAutor = UUID.fromString(id);
-        Optional<Autor> autorOptional =  autorService.obterPorId(idAutor);
+    public ResponseEntity<Object> atualizar(@PathVariable String id, @RequestBody AutorDTO autorDto) {
+        try {
+            UUID idAutor = UUID.fromString(id);
+            Optional<Autor> autorOptional =  autorService.obterPorId(idAutor);
 
-       if (autorOptional.isEmpty()) return ResponseEntity.notFound().build();
+           if (autorOptional.isEmpty()) return ResponseEntity.notFound().build();
 
-       Autor autor = autorOptional.get();
-       autor.setNome(autorDto.nome());
-       autor.setDataNascimento(autorDto.dataNascimento());
-       autor.setNacionalidade(autorDto.nacionalidade());
+           Autor autor = autorOptional.get();
+           autor.setNome(autorDto.nome());
+           autor.setDataNascimento(autorDto.dataNascimento());
+           autor.setNacionalidade(autorDto.nacionalidade());
 
-       autorService.atualizar(autor);
+           autorService.atualizar(autor);
 
-       return ResponseEntity.noContent().build();
+           return ResponseEntity.noContent().build();
+
+        } catch (RegistroDuplicadoException e) {
+            ErroResposta erroDTO = ErroResposta.conflito(e.getMessage());
+            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
+        }
     }
 }
