@@ -3,18 +3,16 @@ package com.example.libraryapi.validator;
 import com.example.libraryapi.exceptions.RegistroDuplicadoException;
 import com.example.libraryapi.model.Autor;
 import com.example.libraryapi.repository.AutorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
+@RequiredArgsConstructor
 public class AutorValidator {
 
     private final AutorRepository repository;
-
-    public AutorValidator(AutorRepository repository) {
-        this.repository = repository;
-    }
 
     public void validar(Autor autor) {
         if (existeAutorCadastrado(autor)) throw new RegistroDuplicadoException("Autor já cadastrado na base de dados");
