@@ -10,7 +10,7 @@ spring:
   # H2 CLIENT
   h2:
     console:
-C      enabled: true
+      enable: true
       path: /h2-console
   # JPA, SQL
   jpa:
