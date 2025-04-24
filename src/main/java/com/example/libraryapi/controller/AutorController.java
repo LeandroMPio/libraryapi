@@ -1,5 +1,6 @@
 package com.example.libraryapi.controller;
 
+import com.example.libraryapi.GenericController;
 import com.example.libraryapi.controller.dto.AutorDTO;
 import com.example.libraryapi.controller.dto.ErroResposta;
 import com.example.libraryapi.controller.mappers.AutorMapper;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("autores")
 @RequiredArgsConstructor
-public class AutorController {
+public class AutorController implements GenericController {
 
     private final AutorService autorService;
     private final AutorMapper autorMapper;
@@ -33,11 +34,7 @@ public class AutorController {
             Autor autor = autorMapper.toEntity(dto);
             autorService.salvar(autor);
 
-            URI location = ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/{id}")
-                    .buildAndExpand(autor.getId())
-                    .toUri();
+            URI location = gerarHeaderLocation(autor.getId());
 
             return ResponseEntity.created(location).build();
 
