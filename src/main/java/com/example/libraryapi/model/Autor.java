@@ -1,5 +1,6 @@
 package com.example.libraryapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,7 +46,8 @@ public class Autor {
     @Column(name = "id_usuario")
     private UUID idUsuario;
 
-    @OneToMany(mappedBy = "autor")
+    @JsonIgnore
+    @OneToMany(mappedBy = "autor", fetch = FetchType.LAZY)
               //(mappedBy = "autor", cascade = CascadeType.ALL)
                 // utilizando o CascadeType.ALL quando salvar um autor será salvo a lista de livros
                 // e também quando deletar será deletado todos os livros pertencentes a este autor
