@@ -26,16 +26,11 @@ public class LivroController implements GenericController {
     private final LivroMapper livroMapper;
 
     @PostMapping
-    public ResponseEntity<Object> salva(@RequestBody @Valid CadastroLivroDTO dto) {
-        try {
-            Livro livro = livroMapper.toEntity(dto);
-            livroService.salvar(livro);
-            URI location = gerarHeaderLocation(livro.getId());
+    public ResponseEntity<Void> salva(@RequestBody @Valid CadastroLivroDTO dto) {
+        Livro livro = livroMapper.toEntity(dto);
+        livroService.salvar(livro);
+        URI location = gerarHeaderLocation(livro.getId());
 
-            return ResponseEntity.created(location).build();
-        } catch (RegistroDuplicadoException e) {
-            ErroResposta erroDTO = ErroResposta.conflito(e.getMessage());
-            return ResponseEntity.status(erroDTO.status()).body(erroDTO);
-        }
+        return ResponseEntity.created(location).build();
     }
 }
