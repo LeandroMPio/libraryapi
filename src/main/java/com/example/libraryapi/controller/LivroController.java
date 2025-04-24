@@ -2,9 +2,7 @@ package com.example.libraryapi.controller;
 
 import com.example.libraryapi.GenericController;
 import com.example.libraryapi.controller.dto.CadastroLivroDTO;
-import com.example.libraryapi.controller.dto.ErroResposta;
 import com.example.libraryapi.controller.mappers.LivroMapper;
-import com.example.libraryapi.exceptions.RegistroDuplicadoException;
 import com.example.libraryapi.model.Livro;
 import com.example.libraryapi.service.LivroService;
 import jakarta.validation.Valid;

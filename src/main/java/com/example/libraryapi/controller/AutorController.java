@@ -2,17 +2,13 @@ package com.example.libraryapi.controller;
 
 import com.example.libraryapi.GenericController;
 import com.example.libraryapi.controller.dto.AutorDTO;
-import com.example.libraryapi.controller.dto.ErroResposta;
 import com.example.libraryapi.controller.mappers.AutorMapper;
-import com.example.libraryapi.exceptions.OperacaoNaoPermitidaException;
-import com.example.libraryapi.exceptions.RegistroDuplicadoException;
 import com.example.libraryapi.model.Autor;
 import com.example.libraryapi.service.AutorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
