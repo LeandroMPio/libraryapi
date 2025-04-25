@@ -29,6 +29,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers("/h2-console/**").permitAll();
                     authorize.requestMatchers("/login").permitAll();
+                    authorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll();
 //                    authorize.requestMatchers("/autores/**").hasRole("ADMIN");
 //                    authorize.requestMatchers(HttpMethod.POST, "/autores/**").hasAuthority("CADASTRAR_AUTOR");
                     authorize.requestMatchers(HttpMethod.POST, "/autores/**").hasRole("ADMIN");
