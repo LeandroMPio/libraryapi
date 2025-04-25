@@ -2,6 +2,7 @@ package com.example.libraryapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,6 +26,13 @@ public class SecurityConfiguration {
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers("/login").permitAll();
+//                    authorize.requestMatchers("/autores/**").hasRole("ADMIN");
+//                    authorize.requestMatchers(HttpMethod.POST, "/autores/**").hasAuthority("CADASTRAR_AUTOR");
+                    authorize.requestMatchers(HttpMethod.POST, "/autores/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.DELETE, "/autores/**").hasRole("ADMIN");
+                    authorize.requestMatchers(HttpMethod.PUT, "/autores/**").hasRole("ADMIN");
+                    authorize.requestMatchers("/livros/**").hasAnyRole("USER", "ADMIN");
                     authorize.anyRequest().authenticated();
                 })
                 .build();
