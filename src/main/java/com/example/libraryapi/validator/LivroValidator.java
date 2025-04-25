@@ -1,5 +1,6 @@
 package com.example.libraryapi.validator;
 
+import com.example.libraryapi.exceptions.CampoInvalidoException;
 import com.example.libraryapi.exceptions.RegistroDuplicadoException;
 import com.example.libraryapi.model.Livro;
 import com.example.libraryapi.repository.LivroRepository;
@@ -12,10 +13,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LivroValidator {
 
+    private static final int ANO_EXIGENCIA_PRECO = 2020;
+
     private final LivroRepository livroRepository;
 
     public void validar(Livro livro) {
         if (existeLivroComIsbn(livro)) throw new RegistroDuplicadoException("Já existe um livro com este ISBN");
+
+        if (isPrecoObrigatorioNulo(livro)) throw new CampoInvalidoException(
+                "preco", "Para livros com ano de publicação a partir de 2020, o preço é obrigatório");
+    }
+
+    private boolean isPrecoObrigatorioNulo(Livro livro) {
+        return livro.getDataPublicacao().getYear() >= ANO_EXIGENCIA_PRECO && livro.getPreco() == null;
     }
 
     private boolean existeLivroComIsbn(Livro livro) {
