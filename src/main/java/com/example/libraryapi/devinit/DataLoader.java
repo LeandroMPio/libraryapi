@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.UUID;
 
 @Configuration
 @RequiredArgsConstructor
@@ -24,13 +23,11 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Autor autor1 = new Autor();
-        autor1.setId(UUID.fromString("0041fdbc-b415-41a0-8e60-d538dadc13d0"));
         autor1.setNome("Maria");
         autor1.setDataNascimento(LocalDate.of(1960, 01, 01));
         autor1.setNacionalidade("Brasileira");
 
         Autor autor2 = new Autor();
-        autor2.setId(UUID.fromString("3cf56cf3-0065-4d8d-b934-0d8ca0bc786f"));
         autor2.setNome("Josefina");
         autor2.setDataNascimento(LocalDate.of(1970, 01, 01));
         autor2.setNacionalidade("Americana");
