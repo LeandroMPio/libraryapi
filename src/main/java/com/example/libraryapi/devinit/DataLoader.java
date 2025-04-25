@@ -43,7 +43,7 @@ public class DataLoader implements CommandLineRunner {
         livro1.setAutor(autor1);
 
         Livro livro2 = new Livro();
-        livro2.setIsbn("978-1585424337");
+        livro2.setIsbn("978-2123456803");
         livro2.setTitulo("As viagens");
         livro2.setDataPublicacao(LocalDate.of(1965, 01, 01));
         livro2.setGenero(GeneroLivro.MISTERIO);
