@@ -2,6 +2,7 @@ package com.example.libraryapi.service;
 
 import com.example.libraryapi.exceptions.OperacaoNaoPermitidaException;
 import com.example.libraryapi.model.Autor;
+import com.example.libraryapi.model.Usuario;
 import com.example.libraryapi.repository.AutorRepository;
 import com.example.libraryapi.repository.LivroRepository;
 import com.example.libraryapi.validator.AutorValidator;
@@ -19,13 +20,14 @@ import java.util.UUID;
 public class AutorService {
 
     private final AutorRepository autorRepository;
-
     private final LivroRepository livroRepository;
-
     private final AutorValidator validator;
+    private final SecurityService securityService;
 
     public Autor salvar(Autor autor) {
         validator.validar(autor);
+        Usuario usuario = securityService.obterUsuarioLogado();
+        autor.setUsuario(usuario);
         return autorRepository.save(autor);
     }
 

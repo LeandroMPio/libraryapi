@@ -2,6 +2,7 @@ package com.example.libraryapi.service;
 
 import com.example.libraryapi.model.GeneroLivro;
 import com.example.libraryapi.model.Livro;
+import com.example.libraryapi.model.Usuario;
 import com.example.libraryapi.repository.LivroRepository;
 import com.example.libraryapi.repository.specs.LivroSpecs;
 import com.example.libraryapi.validator.LivroValidator;
@@ -21,9 +22,14 @@ public class LivroService {
 
     private final LivroRepository livroRepository;
     private final LivroValidator livroValidator;
+    private final SecurityService securityService;
 
     public Livro salvar(Livro livro) {
         livroValidator.validar(livro);
+
+        Usuario usuario = securityService.obterUsuarioLogado();
+        livro.setUsuario(usuario);
+
         return livroRepository.save(livro);
     }
 
