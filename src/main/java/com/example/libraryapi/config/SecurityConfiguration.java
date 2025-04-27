@@ -1,6 +1,7 @@
 package com.example.libraryapi.config;
 
 import com.example.libraryapi.security.CustomUserDetailsService;
+import com.example.libraryapi.security.LoginSocialSuccessHandler;
 import com.example.libraryapi.service.UsuarioService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +24,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity httpSecurity, LoginSocialSuccessHandler successHandler) throws Exception {
+
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(Customizer.withDefaults())
@@ -39,7 +42,9 @@ public class SecurityConfiguration {
                 .headers(headers ->
                         headers
                                 .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                .oauth2Login(Customizer.withDefaults())
+                .oauth2Login(oaut2 -> {
+                    oaut2.successHandler(successHandler);
+                })
                 .build();
     }
 
