@@ -5,6 +5,7 @@ import com.example.libraryapi.model.Autor;
 import com.example.libraryapi.model.Usuario;
 import com.example.libraryapi.repository.AutorRepository;
 import com.example.libraryapi.repository.LivroRepository;
+import com.example.libraryapi.security.SecurityService;
 import com.example.libraryapi.validator.AutorValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
