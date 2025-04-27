@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -65,5 +66,12 @@ public class SecurityConfiguration {
 //        return new InMemoryUserDetailsManager(user1, user2);
 
         return new CustomUserDetailsService(usuarioService);
+    }
+
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        // o padrão é ROLE_, pode ser customizado -> ex: GRUPO_
+//        return new GrantedAuthorityDefaults("");
+        return new GrantedAuthorityDefaults("");
     }
 }
