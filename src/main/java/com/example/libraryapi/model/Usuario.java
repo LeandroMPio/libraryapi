@@ -24,6 +24,9 @@ public class Usuario {
     @Column(length = 300, nullable = false)
     private String senha;
 
+    @Column(length = 150, nullable = false)
+    private String email;
+
     @Type(ListArrayType.class)
     @Column(name = "roles", columnDefinition = "varchar(255) array")
     private List<String> roles;

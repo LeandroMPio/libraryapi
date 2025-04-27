@@ -5,6 +5,7 @@ import com.example.libraryapi.controller.dto.UsuarioDTO;
 import com.example.libraryapi.controller.mappers.UsuarioMapper;
 import com.example.libraryapi.model.Usuario;
 import com.example.libraryapi.service.UsuarioService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class UsuarioController implements GenericController {
     private final UsuarioMapper usuarioMapper;
 
     @PostMapping
-    public ResponseEntity<Void> salvar(@RequestBody UsuarioDTO dto) {
+    public ResponseEntity<Void> salvar(@RequestBody @Valid UsuarioDTO dto) {
         Usuario usuario = usuarioMapper.toEntity(dto);
         usuarioService.salvar(usuario);
         
