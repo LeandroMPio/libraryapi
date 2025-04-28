@@ -1,10 +1,10 @@
 package com.example.libraryapi.devinit;
 
-import com.example.libraryapi.model.Autor;
-import com.example.libraryapi.model.GeneroLivro;
-import com.example.libraryapi.model.Livro;
+import com.example.libraryapi.model.*;
 import com.example.libraryapi.repository.AutorRepository;
 import com.example.libraryapi.repository.LivroRepository;
+import com.example.libraryapi.service.ClientService;
+import com.example.libraryapi.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -19,6 +20,8 @@ public class DataLoader implements CommandLineRunner {
 
     private final AutorRepository autorRepository;
     private final LivroRepository livroRepository;
+    private final UsuarioService usuarioService;
+    private final ClientService clientService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -51,5 +54,22 @@ public class DataLoader implements CommandLineRunner {
         livro2.setAutor(autor2);
 
         livroRepository.saveAll(Arrays.asList(livro1, livro2));
+
+        Usuario usuario = new Usuario();
+        usuario.setLogin("gerente");
+        usuario.setEmail("gerente@libraryapi.com");
+        usuario.setSenha("123");
+        usuario.setRoles(List.of("GERENTE"));
+
+        usuarioService.salvar(usuario);
+
+        Client client = new Client();
+        client.setClientId("meu-client");
+        client.setClientSecret("client-secret");
+        client.setRedirectURI("http://localhost:8080/authorized");
+        client.setScope("GERENTE");
+
+        clientService.salvar(client);
+
     }
 }
