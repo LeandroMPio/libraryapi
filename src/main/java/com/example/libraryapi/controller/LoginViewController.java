@@ -17,16 +17,16 @@ public class LoginViewController {
 
     @GetMapping("/")
     @ResponseBody
-    public String paginaHome(Authentication authentication){
-        if(authentication instanceof CustomAuthentication customAuth){
+    public String paginaHome(Authentication authentication) {
+        if (authentication instanceof CustomAuthentication customAuth) {
             System.out.println(customAuth.getUsuario());
         }
         return "Olá " + authentication.getName();
     }
 
-//    @GetMapping("/authorized")
-//    @ResponseBody
-//    public String getAuthorizationCode(@RequestParam("code") String code){
-//        return "Seu authorization code: " + code;
-//    }
+    @GetMapping("/authorized")
+    @ResponseBody
+    public String getAuthorizationCode(@RequestParam("code") String code) {
+        return "Seu authorization code: " + code;
+    }
 }
