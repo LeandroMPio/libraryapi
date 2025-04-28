@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -40,13 +42,29 @@ public class SecurityConfiguration {
                 .oauth2Login(oaut2 -> {
                     oaut2.successHandler(successHandler);
                 })
+                .oauth2ResourceServer(oauth2Rs ->
+                        oauth2Rs.jwt(Customizer.withDefaults()))
                 .build();
     }
 
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        // o padrão é ROLE_, pode ser customizado -> ex: GRUPO_
-//        return new GrantedAuthorityDefaults("");
+        // o padrão é ROLE_, pode ser customizado -> ex: GRUPO_ ou
+        // retirar ""
+//        return new GrantedAuthorityDefaults("GRUPO_");
         return new GrantedAuthorityDefaults("");
+    }
+
+    // Configura no Token JWT, o prefixo SCOPE
+    // que por padrão vem -> SCOPE_
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter authoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        authoritiesConverter.setAuthorityPrefix("");
+
+        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        converter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
+
+        return converter;
     }
 }
